@@ -1,1 +1,25 @@
+name: Build Godot Android APK
 
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Godot
+        uses: firebelley/godot-export@v5.2
+        with:
+          godot-version: 4.2.1
+          export-template: "https://downloads.tuxfamily.org/godotengine/4.2.1/Godot_v4.2.1-stable_export_templates.tpz"
+          export-preset: "Android"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: HorrorRPG-Android
+          path: build/android/*.apk
